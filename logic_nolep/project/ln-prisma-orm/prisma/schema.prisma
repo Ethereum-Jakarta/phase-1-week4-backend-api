@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User{
+  id      Int         @id @default(autoincrement())
+  name    String      @db.VarChar(50)
+  phone   String?     @db.VarChar(20)
+  email   String?     @db.VarChar(30)
+  task    Task[]
+  category Category[]
+}
+
+model Task {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(50)
+  description String?  @db.Text
+  status      Status
+  expiredAt   DateTime?
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id],onDelete: Cascade)
+
+  categories TaskCategory[]
+}
+
+model Category {
+  id           Int     @id @default(autoincrement())
+  categoryName String  @db.VarChar(50)
+  description  String? @db.Text
+
+  userId Int
+  user   User @relation(fields: [userId],references: [id],onDelete: Cascade)
+
+  tasks TaskCategory[]
+}
+
+
+model TaskCategory {
+  taskId     Int
+  categoryId Int
+
+  task     Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([taskId, categoryId])
+}
+
+enum Status {
+  ACTIVE
+  DONE
+  REMOVE
+}
