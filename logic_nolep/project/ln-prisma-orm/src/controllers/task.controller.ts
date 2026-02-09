@@ -145,4 +145,53 @@ export class TaskController {
       next(err);
     }
   }
+  public static async findAllTrashByUserId(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const userId = Number(req.params.userId);
+      const response = await TaskService.findAllTrashByUserId(userId);
+      res.status(200).json({
+        succes: true,
+        message: "Berhasil mengambil semua task di trash berdasarkan userId",
+        data: response,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+  public static async deleteTaskPermanently(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const userId = Number(req.params.userId);
+      const taskId = Number(req.params.taskId);
+      const response = await TaskService.deleteTrash(userId, taskId);
+      res.status(200).json({
+        succes: true,
+        message: "Berhasil menghapus task secara permanen",
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+  public static async emptyTrash(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const response = await TaskService.deleteAllTrash();
+      res.status(200).json({
+        succes: true,
+        message: "Berhasil menghapus semua task di trash secara permanen",
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }

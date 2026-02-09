@@ -1,10 +1,10 @@
 import { prisma } from "../application/prisma";
 import {
-  toTaskResponse,
   type createTaskRequest,
   type changeTaskContentRequest,
   findAllTaskByUserIdResponse,
   findAllTaskByCategoryResponse,
+  toTaskResponse,
   toTrashResponse,
 } from "../models/task.model";
 import { TaskValidation } from "../validations/task.validation";
@@ -230,18 +230,6 @@ export class TaskService {
     return findAllTaskByCategoryResponse(task);
   }
 
-  public static async deleteAllTrash() {
-    await prisma.task.deleteMany({
-      where: {
-        status: "REMOVE",
-        expiredAt: {
-          lt: new Date(),
-        },
-      },
-    });
-    return "Berhasil menghapus semua task yang ada di trash lebih dari 30 hari";
-  }
-
   public static async findAllTrashByUserId(userId: number) {
     const isUserExist = await this.checkIfUserExist(userId);
     if (!isUserExist) {
@@ -257,6 +245,15 @@ export class TaskService {
     });
 
     return allTrash.map((task) => toTrashResponse(task));
+  }
+
+  public static async deleteAllTrash() {
+    await prisma.task.deleteMany({
+      where: {
+        status: "REMOVE",
+      },
+    });
+    return "Berhasil menghapus semua task";
   }
 
   public static async deleteTrash(userId: number, taskId: number) {

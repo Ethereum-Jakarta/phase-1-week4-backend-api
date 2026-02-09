@@ -350,12 +350,12 @@ Response Success example:
 
 </details>
 
-### TASK: updateTask
+### TASK: updateTaskContent
 
 endpoint :
 
 ```
-PATCH -> /todo/:userId/task/:taskId
+PATCH -> /todo/:userId/task/:taskId/content
 ```
 
 <details>
@@ -494,12 +494,47 @@ Response Success example:
 
 </details>
 
+### CATEGORY: updateCategory
+
+endpoint :
+
+```
+patch -> /todo/:userId/category
+```
+
+<details>
+<summary> Click for more details </summary>
+Request Body example (json):
+
+```json
+{
+  "category_name": "pekerjaan rumah",
+  "description": "kategori untuk pekerjaan rumah"
+}
+```
+
+Response Success example:
+
+```json
+{
+  "success": true,
+  "message": "Category berhasil diperbarui!",
+  "data": {
+    "id": 1,
+    "category_name": "pekerjaan rumah",
+    "description": "kategori untuk pekerjaan rumah"
+  }
+}
+```
+
+</details>
+
 ### CATEGORY: findAllCategory
 
 endpoint :
 
 ```
-GET -> /todo/:userId/categories/
+GET -> /todo/:userId/category/
 ```
 
 <details>
