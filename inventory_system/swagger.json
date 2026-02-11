@@ -1,0 +1,461 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"title": "Inventory System API",
+		"Description": "-",
+		"version": "1.0.0"
+	},
+	"host": "localhost:3000",
+	"basePath": "/v1",
+	"schemes": {
+		"-": "http"
+	},
+
+	"securityDefinitions": {
+		"Bearer": {
+			"type": "apiKey",
+			"name": "Authorization",
+			"in": "header"
+		}
+	},
+
+	"security": {
+		"Bearer": []
+	},
+
+	"paths": {
+		"/auth/login": {
+			"post": {
+				"tags": [
+					"Auth API"
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"email": "string",
+								"password": "string"
+							},
+							"example": {
+								"email": "kelli.von23@gmail.com",
+								"password": "12345678a"	
+							}
+						}
+					}
+				],
+				"summary": "Login to get the token", 
+				"description" : "",
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+
+		"/auth/register": {
+			"post": {
+				"tags": [
+					"Auth API"
+				],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"email": "string",
+								"name": "string",
+								"password": "string"
+							},
+							"example": {
+								"email": "joni.jon12@yahoo.com",
+								"name": "joni",
+								"password": "12345678a"
+							}
+						}
+					}
+				],
+				"summary": "Register to login",
+				"description": "",
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+
+		"/category": {
+			"get": {
+				"tags": ["Category API"],
+				"summary": "Get list of category product",
+				"description": "",
+				"security": [{
+					"Bearer": []
+				}],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			},
+
+			"post": {
+				"tags": ["Category API"],
+				"summary": "Create a category product",
+				"description": "",
+				"parameters": [{
+					"in": "body",
+					"name": "body",
+					"schema": {
+						"type": "object",
+						"properties": {
+							"name": "string"
+						},
+						"example": {
+							"name": "Education"
+						}
+					}
+				}],
+				"security": [{
+					"Bearer": []
+				}],
+				"responses": {
+					"201": {
+						"description": "Created"
+					}
+				}
+			}
+		},
+
+		"/category/{categoryId}": {
+			"get": {
+				"tags": ["Category API"],
+				"summary": "Get category using category ID",
+				"description": "",
+				"security": [{
+					"Bearer": []
+				}],
+				"parameters": [{
+					"in": "path",
+					"name": "categoryId",
+					"schema": {
+						"type": "string",
+						"example": "2e31b59a-f346-43d5-9bd9-a08d024b108b"
+					},
+					"required": true
+				}],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}	
+			},
+
+			"patch": {
+				"tags": ["Category API"],
+				"summary": "Update the category using category ID",
+				"description": "",
+				"security": [{
+					"Bearer": []
+				}],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "categoryId",
+						"schema": {
+							"type": "string",
+							"example": "2e31b59a-f346-43d5-9bd9-a08d024b108b"
+						},
+						"required": true
+					},
+					{
+						"in": "body",
+						"name": "body",
+						"schema": {
+							"type": "objcet",
+							"properties": {
+								"name": "string"
+							},
+							"example": {
+								"name": "Knowledge"
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			},
+
+			"delete": {
+				"tags": ["Category API"],
+				"summary": "Delete category using catgeory ID",
+				"description": "",
+				"security": [{
+					"Bearer": []
+				}],
+				"parameters": [{
+					"in": "path",
+					"name": "categoryId",
+					"schema": {
+						"type": "string",
+						"example": "2e31b59a-f346-43d5-9bd9-a08d024b108b"
+					},
+					"required": true
+				}],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+
+		"/product": {
+			"get": {
+				"tags": [
+					"Product API"
+				],
+				"security": [{
+					"Bearer": []
+				}],
+				"summary": "Get the list of product",
+				"description": "",
+				"responses": {
+					"200": {
+						"description": "OK"	
+					}
+				}
+			},
+			"post": {
+				"tags": ["Product API"],
+				"summary": "Create a product with the categoryId",
+				"description": "",
+				"parameters": [{
+					"in": "body",
+					"name": "body",
+					"schema": {
+						"type": "object",
+						"properties": {
+							"name": "string",
+							"description": "string",
+							"price": "float",
+							"quantityInStock": "integer",
+							"categoryId": "string"
+						},
+						"example": {
+							"name": "Atomic Habits",
+							"description": "",
+							"price": 120000,
+							"quantityInStock": 10,
+							"categoryId": "fc29820b-468d-4094-ba79-1e682df54e54",
+							"userId": "02dbba69-be82-4d8c-b54b-523da980a96b"
+						}
+					}
+				}],
+				"security": [{
+					"Bearer": []
+				}],
+				"responses": {
+					"201": {
+						"description": "Created"
+					}
+				}
+			}
+		},
+
+		"/product/{productId}": {
+			"get": {
+				"tags": ["Product API"],
+				"summary": "Get the specific product",
+				"description": "",
+				"security": [{
+					"Bearer": []
+				}],
+				"parameters": [{
+					"in": "path",
+					"name": "productId"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			},
+			"patch": {
+				"tags": ["Product API"],
+				"summary": "Update product",
+				"description": "",
+				"security": [{
+					"Bearer": []
+				}],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "productId"
+					},
+					{
+						"in": "body",
+						"name": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"name": "string",
+								"description": "srting",
+								"price": "float",
+								"quantityInStock": "integer",
+								"categoryId": "string",
+								"userId": "string"
+							},
+							"example": {
+								"price": 100000
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			},
+			"delete": {
+				"tags": ["Product API"],
+				"summary": "Delete the product using id",
+				"description": "",
+				"security": [{
+					"Bearer": []
+				}],
+				"parameters": [{
+					"in": "path",
+					"name": "productId"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+
+		"/order": {
+			"get": {
+				"tags": ["Order API"],
+				"summary": "Get list order",
+				"security": [{
+					"Bearer": []
+				}],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			},
+
+			"post": {
+				"tags": ["Order API"],
+				"summary": "Create a order",
+				"description": "In the totalPrice just fill 0, because it will update by the orderItems",
+				"security": [{
+					"Bearer": []
+				}],
+				"parameters": [{
+					"in": "body",
+					"name": "body",
+					"schema": {
+						"type": "object",
+						"properties": {
+							"totalPrice": "float",
+							"customerName": "string",
+							"customerEmail": "string",
+							"userId": "string"
+						},
+						"example": {
+							"totalPrice": 0,
+							"customerName": "user",
+							"customerEmail": "user@mail.com",
+							"userId": "1"
+						}
+					}
+				}],
+				"responses": {
+					"201": {
+						"description": "Created"
+					}
+				}
+			}
+		},
+
+		"/order/{orderId}": {
+			"get": {
+				"tags": ["Order API"],
+				"summary": "Get a order using id",
+				"description": "",
+				"security": [{
+					"Bearer": []
+				}],
+				"parameters": [{
+					"in": "path",
+					"name": "orderId"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			},
+			"patch": {
+				"tags": ["Order API"],
+				"summary": "Update order using id",
+				"description": "",
+				"security": [{
+					"Bearer": []
+				}],
+				"parameters": [{
+					"in": "path",
+					"name": "orderId"
+				}, {
+					"in": "body",
+					"name": "body",
+					"schema": {
+						"type": "object",
+						"example": {
+							"customerName": "User"
+						}
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			},
+			"delete": {
+				"tags": ["Order API"],
+				"summary": "Delete a order using id",
+				"description": "",
+				"security": [{
+					"Bearer": []
+				}],
+				"parameters": [{
+					"in": "path",
+					"name": "orderId"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		}
+
+	}
+}
