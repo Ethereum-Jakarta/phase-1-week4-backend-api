@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  username String @unique
+  email    String @unique
+  posts    Post[]
+}
+
+model Post {
+  id      String @id @default(uuid())
+  title   String
+  content String @db.Text
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
