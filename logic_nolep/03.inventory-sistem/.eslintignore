@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+coverage/
+
+prisma/
+lib/
+generated/
+generated/prisma
+
+**/*.min.js
+**/*.bundle.js

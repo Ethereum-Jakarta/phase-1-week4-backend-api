@@ -1,0 +1,15 @@
+CREATE TABLE user (
+    idUser INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone VARCHAR(100) NOT NULL
+) engine innodb;
+
+CREATE TABLE todo {
+    idTodo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    description VARCHAR(100) NOT NULL,
+    status VARCHAR(100) NOT NULL,
+    userId INT NOT NULL,
+    FOREIGN KEY(userId) REFERENCES user
+} engine innodb;
