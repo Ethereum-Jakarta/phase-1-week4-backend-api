@@ -1,0 +1,110 @@
+<% order.forEach(element =>{ %>
+<div class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Edit Order: <%= element.id  %></h1>
+    <div class="btn-toolbar mb-2 mb-md 0">
+      <div class="btn-group me-2">
+        <button class="btn btn-sm btn-outline-secondary">?</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="col py-3">
+    <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/order">Order</a></li>
+            <li class="breadcrumb-item active"><%= element.id %></li>
+          </ol>
+        </nav>
+      </div>
+      <div class="col text-end fw-lighter">
+        <b>UserId</b>
+      </div>
+    </div>
+  
+  </div>
+  
+  
+  <form action="/order/edit/<%= element.id %>?_method=PATCH" method="POST">
+  
+    <div class="row form-group mb-4">
+        <div class="col">
+            <label for="orderTotalPrice">Total Price</label>
+            <input type="number" step="any" class="form-control" id="orderTotalPrice" name="totalPrice" value="<%= element.totalPrice %>" placeholder="Price" required>
+        </div>
+     </div>
+    
+
+    <div class="row form-group mb-4">
+        <div class="col">
+            <label for="orderDate">Date</label>
+            <input type="date" class="form-control" id="orderDate" name="date" value=""  required>
+        </div>
+    
+       
+      </div>
+   
+      <div class="row form-group mb-4">
+        <div class="col">
+            <label for="orderCustomerName">Customer Name</label>
+            <input type="text" class="form-control" id="orderCustomerName" name="customerName" value="<%= element.customerName %>" placeholder="John" required>
+        </div>
+        <div class="col">
+            <label for="orderCustomerEmail">Customer Email</label>
+            <input type="text" class="form-control" id="orderCustomerEmail" name="customerEmail" value="<%= element.customerEmail %>" placeholder="john.doe@mail.com" required>
+        </div>
+      </div>
+
+    <div class="row form-group mb-4">
+      <div class="col">
+          <label for="orderUser">User</label>
+          <select class="form-control" id="orderUser" name="userId" required>
+              <option value="" disabled selected>Select User</option>
+              <% user.forEach(elementUser =>{ %>
+              <option value="<%= elementUser.id %>"><%= elementUser.name %></option>
+              <% }) %>
+              
+          </select>
+      </div>
+   </div>
+
+
+   <div class="form-group mb-4">
+    <button type="submit" class="btn btn-primary">Update Order</button>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" 
+    id="deleteButton" data-bs-target="#deleteModal">
+      Delete Order</button>
+  </div>
+  
+  </form>
+
+  
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">You are about to remove a order record.</div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" arial-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    This will remove the order record of <b class="fw-bold"><%= element.id %></b><br/>
+                    Are you sure?
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                <form action="/order/edit/<%= element.id %>?_method=DELETE" method="POST" class="position-relative">
+                    <button type="submit" class="btn btn-primary">Yes, remove order</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+  </div>
+
+<% }) %>

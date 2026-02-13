@@ -1,0 +1,72 @@
+<% category.forEach(element =>{ %>
+<div class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Edit Category: <%= element.name %></h1>
+    <div class="btn-toolbar mb-2 mb-md 0">
+      <div class="btn-group me-2">
+        <button class="btn btn-sm btn-outline-secondary">?</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col py-3">
+    <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/category">Category</a></li>
+            <li class="breadcrumb-item active"><%= element.name %></li>
+          </ol>
+        </nav>
+      </div>
+      <div class="col text-end fw-lighter">
+        <b>Last Updated: <%= new Date(element.updatedAt).toUTCString() %>,</b>
+        <b>Id: <%= element.id %></b>
+      </div>
+    </div>
+  
+  </div>
+  
+  <form action="/category/edit/<%= element.id %>?_method=PATCH" method="POST">
+  
+    <div class="row form-group mb-4">
+        <div class="col">
+          <label for="categoryName">Category Name</label>
+          <input type="text" class="form-control" id="categoryName" name="name" value="<%= element.name %>" placeholder="Ex: Shirt" required>
+        </div>
+     </div>
+     <div class="form-group mb-4">
+      <button type="submit" class="btn btn-primary">Update Category</button>
+      <button type="button" class="btn btn-danger" data-bs-toggle="modal" 
+      id="deleteButton" data-bs-target="#deleteModal">
+        Delete Category</button>
+    </div>
+  
+  </form>
+
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">You are about to remove a category record.</div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" arial-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    This will remove the category record of <b class="fw-bold"><%= element.name %></b><br/>
+                    Are you sure?
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                <form action="/category/edit/<%= element.id %>?_method=DELETE" method="POST" class="position-relative">
+                    <button type="submit" class="btn btn-primary">Yes, remove category</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+  </div>
+
+  <% }) %>

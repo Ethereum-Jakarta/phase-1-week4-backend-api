@@ -1,0 +1,135 @@
+<div class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">User</h1>
+    <div class="border border-dark">
+        <form class="nav col-12 col-md-auto flex-fill mb-2 justify-content-center mb-md-0" role="search" method="GET" action="/user/search">
+            <input type="search" name="name" class="form-control form-control-light w-100 rounded-0 border-0" placeholder="Search..." aria-label="Search">
+        </form>
+        
+    </div>
+    <div class="btn-toolbar mb-2 mb-md 0">
+        <div class="btn-group me 2">
+            <a href="/user/add" class="btn btn-sm btn-outline-secondary">+ New User</a>
+        </div>
+    </div>
+    
+</div>
+
+
+<% messages.forEach(element => { %>
+    <div class="alert alert-success alert-dismissible show" role="alert">
+        <%= element %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>       
+    </div>
+<% }); %>
+
+
+
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+                <th scope="col" class="text-end">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(element =>{ %>
+                <tr class="align-middle">
+                    <td><%= element.name  %></td>
+                    <td><%= element.email  %></td>
+                    <td><%= element.role  %></td>
+                    <td class="text-end">
+                        <div class="d-flex flex-row justify-content-end gap-2">
+
+                            <a href="/user/detail/<%= element.id %>" type="button" class="btn btn-primary btn-small">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="/user/edit/<%= element.id %>" type="button" class="btn btn-warning btn-small">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+
+                            <form action="/user/edit/<%= element.id %>?_method=DELETE" method="POST" class="position-relative">
+                                <button type="button" class="btn btn-danger btn-small" data-bs-toggle="modal" 
+                                id="deleteButton" data-bs-target="#deleteModal<%= element.id %>">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                           
+                            
+
+
+                        </div>
+                    </td>
+                </tr>
+                <div class="modal fade" id="deleteModal<%= element.id %>"  tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="modal-title">You are about to remove a user record.</div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" arial-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    This will remove the user record of <b class="fw-bold"><%= element.name %></b><br/>
+                                    Are you sure?
+                                </p>
+                            </div>
+                
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                
+                                <form action="/user/edit/<%= element.id %>?_method=DELETE" method="POST" class="position-relative">
+                                    <button type="submit" class="btn btn-primary">Yes, remove user</button>
+                                </form>
+                            </div>
+                
+                        </div>
+                    </div>
+                  </div>  
+
+                  
+            <% }) %>
+            
+        </tbody>
+    </table>
+</div>
+
+
+<% if(users.length>0){ %>
+    <nav aria-label="Dashboard Pagination">
+        <ul class="pagination justify-content-center mt-5">
+            <% if(page===1){ %>
+                <li class="page-item disabled"><span class="page-link">First</span></li>
+            <% } else { %>
+                <li class="page-item"><a href="/user/?page=1" class="page-link">First</a></li>
+            <% } %>
+            
+            <% var i = (Number(page)>5 ? Number(page)-4 : 1) %>
+            <% if(i!==1){ %>
+                <li class="page-item disabled"><a href="#" class="page-link">...</a></li>
+            <% } %>
+           
+            <% for(; i <= Math.min((Number(page) + 4), lastPage); i++ ) { %>
+                <% if (i == page) { %>
+                  <li class="page-item disabled"><a href="#" class="page-link"><%= i %></a></li>
+                <% } else { %>
+                  <li class="page-item"><a href="/user/?page=<%= i %>" class="page-link"><%= i %></a></li>
+                <% } %>
+                <% if (i == Math.min((Number(page) + 4), lastPage) && i < lastPage) { %>
+                  <li class="page-item disabled"><a href="#" class="page-link">...</a></li>
+                <% } %>
+            <% } %>
+
+            <% if (page == lastPage) { %>
+                <li class="page-item disabled"><a href="#" class="page-link">Last</a></li>
+              <% } else { %>
+                <li class="page-item"><a href="/user/?page=<%= lastPage %>" class="page-link">Last</a></li>
+              <% } %>
+
+        </ul>
+
+    </nav>
+<% } %>
+

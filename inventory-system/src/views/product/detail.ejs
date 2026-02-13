@@ -1,0 +1,80 @@
+<% product.forEach(element =>{ %>
+    
+    <div class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Detail Product: <%= element.name  %></h1>
+  
+           
+    </div>
+
+    <div class="col py-3">
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="/product">Product</a></li>
+                      <li class="breadcrumb-item active"><%= element.name  %></li>
+                    </ol>
+                  </nav>
+            </div>
+            <div class="col text-end fw-lighter">
+                <b>Last Updated <%= new Date(element.updatedAt).toUTCString() %></b>
+            </div>
+        </div>
+    </div>
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>Name:</b></div>
+                <div class="col"><%= element.name  %></div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>Category:</b></div>
+                <div class="col"><%= element.category.name  %></div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>Quantity:</b></div>
+                <div class="col"><%= element.quantityInStock  %></div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>Price:</b></div>
+                <div class="col"><%= element.price  %></div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>Description:</b></div>
+                <div class="col"><%= element.description  %></div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>User:</b></div>
+                <div class="col"><%= element.user.name  %></div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>CreatedAt:</b></div>
+                <div class="col"><%= new Date(element.createdAt).toUTCString()  %></div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>updatedAt:</b></div>
+                <div class="col"><%= new Date(element.updatedAt).toUTCString()  %></div>
+            </div>
+        </li>
+
+    </ul>
+
+    
+
+        
+<% }) %>

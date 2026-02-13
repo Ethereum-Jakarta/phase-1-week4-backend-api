@@ -1,0 +1,85 @@
+<div class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Search</h1>
+    <div class="btn-toolbar mb-2 mb-md 0">
+    </div>
+  </div>
+  
+<div class="table-responsive">
+    <% if (order.length > 0) { %>
+
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">Total Price</th>
+            <th scope="col">Date</th>
+            <th scope="col">Customer Name</th>
+            <th scope="col">customer Email</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% order.forEach(element => { %>
+            <tr class="align-middle">
+              <td><%= element.id %></td>
+              <td><%= element.totalPrice %></td>
+              <td><%= new Date(element.date).toUTCString() %></td>
+              <td><%= element.customerName %></td>
+              <td><%= element.customerEmail %></td>
+              <td>
+  
+                <div class="d-flex flex-row justify-content-end gap-2">
+  
+                  <a href="/order/detail/<%= element.id %>" type="button" class="btn btn-primary btn-small">
+                    <i class="bi bi-eye"></i>
+                  </a>
+    
+                  <a href="/order/edit/<%= element.id %>" type="button" class="btn btn-warning btn-small">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+    
+                 
+                    <button type="button" class="btn btn-danger btn-small" data-bs-toggle="modal" 
+                    id="deleteButton" data-bs-target="#deleteModal<%= element.id %>">
+                        <i class="bi bi-trash"></i>
+                    </button>
+               
+    
+                </div>
+  
+              </td>
+            </tr>
+            <div class="modal fade" id="deleteModal<%= element.id %>"  tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="modal-title">You are about to remove a order record.</div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" arial-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                This will remove the order record of <b class="fw-bold"><%= element.name %></b><br/>
+                                Are you sure?
+                            </p>
+                        </div>
+            
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            
+                            <form action="/order/edit/<%= element.id %>?_method=DELETE" method="POST" class="position-relative">
+                                <button type="submit" class="btn btn-primary">Yes, remove order</button>
+                            </form>
+                        </div>
+            
+                    </div>
+                </div>
+              </div>  
+          <% }) %>
+        </tbody>
+      </table>
+  
+    <% } else { %>
+      <h2>No results found.</h2>
+    <% } %>
+  
+  </div>

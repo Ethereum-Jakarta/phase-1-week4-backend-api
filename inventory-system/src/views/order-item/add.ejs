@@ -1,0 +1,82 @@
+<div class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Order Item</h1>
+    <div class="btn-toolbar mb-2 mb-md 0">
+      <div class="btn-group me-2">
+        <button class="btn btn-sm btn-outline-secondary">?</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="col py-3">
+    <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/order-item">Order Item</a></li>
+            <li class="breadcrumb-item active">New Order Item</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="col text-end fw-lighter">
+        <b>UserId</b>
+      </div>
+    </div>
+  
+  </div>
+
+  <% messages.forEach(element => { %>
+    <div class="alert alert-danger alert-dismissible show" role="alert">
+        <%= element %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>       
+    </div>
+<% }); %>
+
+  <form action="/order-item/add" method="POST">
+  
+    <div class="row form-group mb-4">
+        <div class="col">
+            <label for="orderItemOrderId">Order Id</label>
+            <select class="form-control" id="orderItemOrderId" name="orderId" required>
+                <option value="" disabled selected>Select Order</option>
+                <% order.forEach(element =>{ %>
+                <option value="<%= element.id %>"><%= element.id %></option>
+                <% }) %>
+                
+            </select>
+        </div>
+        <div class="col">
+            <label for="orderItemProductId">Product</label>
+            <select class="form-control" id="orderItemProductId" name="productId" required>
+                <option value="" disabled selected>Select Product</option>
+                <% product.forEach(element =>{ %>
+                <option value="<%= element.id %>"><%= element.name %></option>
+                <% }) %>
+                
+            </select>
+        </div>
+     </div>
+    
+     <div class="row form-group mb-4">
+        <div class="col">
+            <label for="orderItemQuantity">Quantity</label>
+            <input type="number" class="form-control" id="orderItemQuantity" name="quantity" value="" placeholder="Quantity" required>
+        </div>
+    
+        <div class="col">
+            <label for="orderItemUnitPrice">Unit Price</label>
+            <input type="number" step="any" class="form-control" id="orderItemUnitPrice" name="unitPrice" value="" placeholder="Unit Price" required>
+        </div>
+      </div>
+   
+
+    
+     
+   
+
+
+     <div class="form-group mb-4">
+      <button type="submit" class="btn btn-primary">Add Order</button>
+    </div>
+  
+  </form>

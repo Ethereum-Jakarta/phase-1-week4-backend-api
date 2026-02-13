@@ -1,0 +1,80 @@
+<% order.forEach(element =>{ %>
+    
+    <div class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Detail Order: <%= element.id  %></h1>
+  
+           
+    </div>
+
+    <div class="col py-3">
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="/order">Order</a></li>
+                      <li class="breadcrumb-item active"><%= element.id  %></li>
+                    </ol>
+                  </nav>
+            </div>
+            <div class="col text-end fw-lighter">
+                <b>Last Updated <%= new Date(element.updatedAt).toUTCString() %></b>
+            </div>
+        </div>
+    </div>
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>Id:</b></div>
+                <div class="col"><%= element.id  %></div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>Total Price:</b></div>
+                <div class="col"><%= element.totalPrice  %></div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>Date:</b></div>
+                <div class="col"><%= new Date(element.date).toUTCString()  %></div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>Customer Name:</b></div>
+                <div class="col"><%= element.customerName  %></div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>Customer Email:</b></div>
+                <div class="col"><%= element.customerEmail  %></div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>User:</b></div>
+                <div class="col"><%= element.user.name %></div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>CreatedAt:</b></div>
+                <div class="col"><%= new Date(element.createdAt).toUTCString()  %></div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col" style="max-width: 140px;"><b>updatedAt:</b></div>
+                <div class="col"><%= new Date(element.updatedAt).toUTCString()  %></div>
+            </div>
+        </li>
+
+    </ul>
+
+    
+
+        
+<% }) %>
