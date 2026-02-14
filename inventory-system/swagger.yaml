@@ -1,0 +1,1052 @@
+openapi: 3.0.0
+info:
+  title: inventory-system
+  contact: {}
+  version: '1.0'
+servers:
+  - url: https://inventory-system-production-567a.up.railway.app/v1/
+    variables: {}
+paths:
+  /auth/logout:
+    get:
+      tags:
+        - Auth
+      summary: Logout
+      operationId: Logout
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /auth/refresh-tokens:
+    post:
+      tags:
+        - Auth
+      summary: Refresh Token
+      operationId: RefreshToken
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/RefreshTokenRequest'
+                - example:
+                    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxY2U5N2JjYS1mMzc1LTQ1Y2UtOGFkNy0zMDNkMWEwOWMyMTkiLCJpYXQiOjE3MDU4Mjc3NDUsImV4cCI6MTcwODQxOTc0NSwidHlwZSI6InJlZnJlc2gifQ.tDNy51pmckfFYMKwiwHjF2ZA7Q8APFSBLySQuqzH3pk
+            example:
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxY2U5N2JjYS1mMzc1LTQ1Y2UtOGFkNy0zMDNkMWEwOWMyMTkiLCJpYXQiOjE3MDU4Mjc3NDUsImV4cCI6MTcwODQxOTc0NSwidHlwZSI6InJlZnJlc2gifQ.tDNy51pmckfFYMKwiwHjF2ZA7Q8APFSBLySQuqzH3pk
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register
+      operationId: Register
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/RegisterRequest'
+                - example:
+                    name: tester
+                    password: rahasia1
+                    email: adminTester@gmail.com
+                    role: admin
+            example:
+              name: tester
+              password: rahasia1
+              email: adminTester@gmail.com
+              role: admin
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      operationId: Login
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/LoginRequest'
+                - example:
+                    email: adminTester@gmail.com
+                    password: rahasia1
+            example:
+              email: adminTester@gmail.com
+              password: rahasia1
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /categories:
+    post:
+      tags:
+        - Category
+      summary: Create Category
+      operationId: CreateCategory
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CreateCategoryRequest'
+                - example:
+                    name: makanan
+            example:
+              name: makanan
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+    get:
+      tags:
+        - Category
+      summary: Get All Category
+      operationId: GetAllCategory
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /categories/{categoryId}:
+    parameters:
+      - in: path
+        name: categoryId
+        schema:
+          type: string
+        required: true
+        description: The category ID
+    get:
+      tags:
+        - Category
+      summary: Get Single Category
+      operationId: GetSingleCategory
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+    patch:
+      tags:
+        - Category
+      summary: Update Category
+      operationId: UpdateCategory
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/UpdateCategoryRequest'
+                - example:
+                    name: Fruit
+            example:
+              name: Fruit
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+    delete:
+      tags:
+        - Category
+      summary: Delete Category
+      operationId: DeleteCategory
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /products:
+    post:
+      tags:
+        - Product
+      summary: Create Product
+      operationId: CreateProduct
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CreateProductRequest'
+                - example:
+                    name: shabu2
+                    description: pencuci gigi
+                    price: 10000
+                    quantityInStock: 100
+                    categoryId: 3cf9659c-91e1-47ac-af2f-7f1bacad1fd6
+                    userId: c1361718-22cb-4027-9845-be00e543eedf
+            example:
+              name: shabu2
+              description: pencuci gigi
+              price: 10000
+              quantityInStock: 100
+              categoryId: 3cf9659c-91e1-47ac-af2f-7f1bacad1fd6
+              userId: c1361718-22cb-4027-9845-be00e543eedf
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+    get:
+      tags:
+        - Product
+      summary: Get All Products
+      operationId: GetAllProducts
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /products/{productId}:
+    parameters:
+      - in: path
+        name: productId
+        schema:
+          type: string
+        required: true
+        description: The product ID
+    get:
+      tags:
+        - Product
+      summary: Get Single Product
+      operationId: GetSingleProduct
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+    delete:
+      tags:
+        - Product
+      summary: Delete Product
+      operationId: DeleteProduct
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+    patch:
+      tags:
+        - Product
+      summary: Update Product
+      operationId: UpdateProduct
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/UpdateProductRequest'
+                - example:
+                    name: Sabun mudi
+            example:
+              name: Sabun mudi
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /users/{userId}/products:
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+        required: true
+        description: The User ID to get Products
+    get:
+      tags:
+        - Product
+      summary: Get Product By User
+      operationId: GetProductByUser
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /users:
+    post:
+      tags:
+        - User
+      summary: Create User
+      operationId: CreateUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CreateUserRequest'
+                - example:
+                    name: Udin
+                    email: udin2@gmail.com
+                    password: sukidepan1
+                    role: user
+            example:
+              name: Udin
+              email: udin2@gmail.com
+              password: sukidepan1
+              role: user
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+    get:
+      tags:
+        - User
+      summary: Get All Users
+      operationId: GetAllUsers
+      parameters:
+        - name: sort
+          in: query
+          description: ''
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            example: a-z
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /users/{userId}/:
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+        required: true
+        description: The User ID
+    get:
+      tags:
+        - User
+      summary: Get SIngle User
+      operationId: GetSIngleUser
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+    patch:
+      tags:
+        - User
+      summary: Update User
+      operationId: UpdateUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/UpdateUserRequest'
+                - example:
+                    name: rugi bang2
+            example:
+              name: rugi bang2
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+    delete:
+      tags:
+        - User
+      summary: Delete User
+      operationId: DeleteUser
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /orders:
+    post:
+      tags:
+        - Order
+      summary: Create Order
+      operationId: CreateOrder
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CreateOrderRequest'
+                - example:
+                    date: 2021-01-20 20:54:36
+                    totalPrice: 0
+                    customerName: Udin3213-kun
+                    customerEmail: udin2@gmail.com
+                    userId: 983a9a3c-bccc-4290-a26d-b1f28f4b6dd6
+            example:
+              date: 2021-01-20 20:54:36
+              totalPrice: 0
+              customerName: Udin3213-kun
+              customerEmail: udin2@gmail.com
+              userId: 983a9a3c-bccc-4290-a26d-b1f28f4b6dd6
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+    get:
+      tags:
+        - Order
+      summary: Get All Orders
+      operationId: GetAllOrders
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /orders/{orderId}/:
+    parameters:
+      - in: path
+        name: orderId
+        schema:
+          type: string
+        required: true
+        description: The Order ID
+    get:
+      tags:
+        - Order
+      summary: Get Single Order
+      operationId: GetSingleOrder
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+    patch:
+      tags:
+        - Order
+      summary: Update Order
+      operationId: UpdateOrder
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/UpdateOrderRequest'
+                - example:
+                    customerName: Udin3213-kun
+            example:
+              customerName: Udin3213-kun
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+    delete:
+      tags:
+        - Order
+      summary: Delete Order
+      operationId: DeleteOrder
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /users/{userId}/orders:
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+        required: true
+        description: The User ID to get Orders
+    get:
+      tags:
+        - Order
+      summary: Get Orders By User
+      operationId: GetOrdersByUser
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /order-items:
+    post:
+      tags:
+        - Order Item
+      summary: Create Order Item
+      operationId: CreateOrderItem
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CreateOrderItemRequest'
+                - example:
+                    orderId: 1a679c0a-e92d-4891-af3a-4e82e4184b49
+                    productId: 6e274f81-24d2-48bb-aec3-f6a18a647e48
+                    quantity: 10
+            example:
+              orderId: 1a679c0a-e92d-4891-af3a-4e82e4184b49
+              productId: 6e274f81-24d2-48bb-aec3-f6a18a647e48
+              quantity: 10
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+    get:
+      tags:
+        - Order Item
+      summary: Get All Order Items
+      operationId: GetAllOrderItems
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /order-items/{orderItemId}:
+    parameters:
+      - in: path
+        name: orderItemId
+        schema:
+          type: string
+        required: true
+        description: The Order Item ID
+    get:
+      tags:
+        - Order Item
+      summary: Get Single Order Item
+      operationId: GetSingleOrderItem
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+    patch:
+      tags:
+        - Order Item
+      summary: Update Order Item
+      operationId: UpdateOrderItem
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/UpdateOrderItemRequest'
+                - example:
+                    quantity: 2
+            example:
+              quantity: 2
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+    delete:
+      tags:
+        - Order Item
+      summary: Delete Order Item
+      operationId: DeleteOrderItem
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+  /orders/{orderId}/order-items:
+    parameters:
+      - in: path
+        name: orderId
+        schema:
+          type: string
+        required: true
+        description: The Order Item ID
+    get:
+      tags:
+        - Order Item
+      summary: Get Order Items By Order
+      operationId: GetOrderItemsByOrder
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+      servers:
+        - url: https://inventory-system-production-567a.up.railway.app/v1/
+          variables: {}
+components:
+  schemas:
+    RefreshTokenRequest:
+      title: RefreshTokenRequest
+      required:
+        - token
+      type: object
+      properties:
+        token:
+          type: string
+      example:
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxY2U5N2JjYS1mMzc1LTQ1Y2UtOGFkNy0zMDNkMWEwOWMyMTkiLCJpYXQiOjE3MDU4Mjc3NDUsImV4cCI6MTcwODQxOTc0NSwidHlwZSI6InJlZnJlc2gifQ.tDNy51pmckfFYMKwiwHjF2ZA7Q8APFSBLySQuqzH3pk
+    RegisterRequest:
+      title: RegisterRequest
+      required:
+        - name
+        - password
+        - email
+        - role
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+      example:
+        name: tester
+        password: rahasia1
+        email: adminTester@gmail.com
+        role: admin
+    LoginRequest:
+      title: LoginRequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: adminTester@gmail.com
+        password: rahasia1
+    CreateCategoryRequest:
+      title: CreateCategoryRequest
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+      example:
+        name: makanan
+    UpdateCategoryRequest:
+      title: UpdateCategoryRequest
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+      example:
+        name: Fruit
+    CreateProductRequest:
+      title: CreateProductRequest
+      required:
+        - name
+        - description
+        - price
+        - quantityInStock
+        - categoryId
+        - userId
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: integer
+          format: int32
+        quantityInStock:
+          type: integer
+          format: int32
+        categoryId:
+          type: string
+        userId:
+          type: string
+      example:
+        name: shabu2
+        description: pencuci gigi
+        price: 10000
+        quantityInStock: 100
+        categoryId: 3cf9659c-91e1-47ac-af2f-7f1bacad1fd6
+        userId: c1361718-22cb-4027-9845-be00e543eedf
+    UpdateProductRequest:
+      title: UpdateProductRequest
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+      example:
+        name: Sabun mudi
+    CreateUserRequest:
+      title: CreateUserRequest
+      required:
+        - name
+        - email
+        - password
+        - role
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+      example:
+        name: Udin
+        email: udin2@gmail.com
+        password: sukidepan1
+        role: user
+    UpdateUserRequest:
+      title: UpdateUserRequest
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+      example:
+        name: rugi bang2
+    CreateOrderRequest:
+      title: CreateOrderRequest
+      required:
+        - date
+        - totalPrice
+        - customerName
+        - customerEmail
+        - userId
+      type: object
+      properties:
+        date:
+          type: string
+        totalPrice:
+          type: integer
+          format: int32
+        customerName:
+          type: string
+        customerEmail:
+          type: string
+        userId:
+          type: string
+      example:
+        date: 2021-01-20 20:54:36
+        totalPrice: 0
+        customerName: Udin3213-kun
+        customerEmail: udin2@gmail.com
+        userId: 983a9a3c-bccc-4290-a26d-b1f28f4b6dd6
+    UpdateOrderRequest:
+      title: UpdateOrderRequest
+      required:
+        - customerName
+      type: object
+      properties:
+        customerName:
+          type: string
+      example:
+        customerName: Udin3213-kun
+    DeleteOrderRequest:
+      title: DeleteOrderRequest
+      required:
+        - date
+        - totalPrice
+        - customerName
+        - customerEmail
+        - userId
+      type: object
+      properties:
+        date:
+          type: string
+        totalPrice:
+          type: integer
+          format: int32
+        customerName:
+          type: string
+        customerEmail:
+          type: string
+        userId:
+          type: string
+      example:
+        date: 2022-01-20 20:54:36
+        totalPrice: 0
+        customerName: Udin3213-kun
+        customerEmail: udin3132@gmail.com
+        userId: 38e869aa-7041-405b-b0ec-69e3b097f14f
+    CreateOrderItemRequest:
+      title: CreateOrderItemRequest
+      required:
+        - orderId
+        - productId
+        - quantity
+      type: object
+      properties:
+        orderId:
+          type: string
+        productId:
+          type: string
+        quantity:
+          type: integer
+          format: int32
+      example:
+        orderId: 1a679c0a-e92d-4891-af3a-4e82e4184b49
+        productId: 6e274f81-24d2-48bb-aec3-f6a18a647e48
+        quantity: 10
+    UpdateOrderItemRequest:
+      title: UpdateOrderItemRequest
+      required:
+        - quantity
+      type: object
+      properties:
+        quantity:
+          type: integer
+          format: int32
+      example:
+        quantity: 2
+    DeleteOrderItemRequest:
+      title: DeleteOrderItemRequest
+      required:
+        - quantity
+      type: object
+      properties:
+        quantity:
+          type: integer
+          format: int32
+      example:
+        quantity: 1
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+security: []
+tags:
+  - name: Auth
+  - name: Category
+  - name: Product
+  - name: User
+  - name: Order
+  - name: Order Item
