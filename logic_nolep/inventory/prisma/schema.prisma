@@ -1,0 +1,66 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  password  String
+  role      String    @default("User")
+  products  Product[]
+  orders    Order[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Product {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  price       Float
+  stock       Int
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  categoryId  Int
+  category    Category  @relation(fields: [categoryId], references: [id])
+  orderItems  OrderItem[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Order {
+  id        Int       @id @default(autoincrement())
+  total     Float
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  orderItems OrderItem[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model OrderItem {
+  id        Int       @id @default(autoincrement())
+  quantity  Int
+  price     Float
+  productId Int
+  product   Product   @relation(fields: [productId], references: [id])
+  orderId   Int
+  order     Order     @relation(fields: [orderId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+}
+
