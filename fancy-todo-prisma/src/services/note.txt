@@ -1,0 +1,2 @@
+Service ini pengganti folder Model di project sebelumnya, karena schema model prisma itu berbeda dia ada di folder Prisma dengan filname schema.prisma
+jadi file service ini khusus untuk code code mengolah data dengan prisma. (tidak boleh panggil prisma di controller)
