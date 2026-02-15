@@ -1,5 +1,7 @@
 node_modules/
+
 .env
-/generated/prisma
+.env.development
+.env.production
 
 /generated/prisma
