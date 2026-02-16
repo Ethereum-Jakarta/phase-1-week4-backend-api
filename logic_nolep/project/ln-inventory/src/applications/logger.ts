@@ -1,5 +1,6 @@
 import winston from "winston";
 import { config } from "@config/config";
+
 const enumerateErrors = winston.format((info) => {
   if (info instanceof Error) {
     Object.assign(info, {
@@ -9,6 +10,7 @@ const enumerateErrors = winston.format((info) => {
   }
   return info;
 });
+
 const logger = winston.createLogger({
   level: config.isDev ? "debug" : "info",
   format: winston.format.combine(

@@ -2,7 +2,7 @@ import express from "express";
 import { AuthController } from "@controllers/auth.controller";
 import { UserValidation } from "@validations/user.validation";
 import { validator } from "@middlewares/validator.middleware";
-import { catchPromise } from "@middlewares/catchPromise.middleware";
+import { catchPromise } from "@middlewares/catch-promise.middleware";
 
 export const publicRouter = express.Router();
 

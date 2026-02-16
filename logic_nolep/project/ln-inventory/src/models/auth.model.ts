@@ -9,7 +9,3 @@ export interface JwtPayload {
 export interface RequestUser extends JwtPayload {
   token?: string;
 }
-
-// export interface RequestWithUser extends Request {
-//   user: RequestUser;
-// }

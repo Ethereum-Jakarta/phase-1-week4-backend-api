@@ -1,4 +1,4 @@
-import type { User } from "@generated/prisma/client";
+import type { Role, User } from "@generated/prisma/client";
 
 export type RegisterUserRequest = {
   name: string;
@@ -9,6 +9,11 @@ export type RegisterUserRequest = {
 export type LoginRequest = {
   email: string;
   password: string;
+};
+
+export type UpdateUserRequest = {
+  name: string;
+  email: string;
 };
 
 export class RegisterUserDto {
@@ -36,5 +41,31 @@ export class LoginDto {
     this.email = user.email;
     this.accessToken = accessToken;
     this.refreshToken = refreshToken;
+  }
+}
+
+export class UpdateUserDto {
+  public id: string;
+  public name: string;
+  public email: string | null;
+  public updatedAt: Date;
+  constructor(user: User) {
+    this.id = user.id;
+    this.name = user.name;
+    this.email = user.email;
+    this.updatedAt = user.updatedAt;
+  }
+}
+
+export class SelectUserDto {
+  public id: string;
+  public name: string;
+  public email: string | null;
+  public role: Role;
+  constructor(user: User) {
+    this.id = user.id;
+    this.name = user.name;
+    this.email = user.email;
+    this.role = user.role;
   }
 }
