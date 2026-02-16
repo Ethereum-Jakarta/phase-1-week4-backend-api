@@ -1,0 +1,22 @@
+const express = require('express');
+const { auth } = require('../../middlewares/auth');
+const validate = require('../../middlewares/validate');
+const categoryValidation = require('../../validations/category.validation');
+const categoryController = require('../../controllers/category.controller');
+
+const router = express.Router();
+
+router.get('/productsByCategory', auth(), categoryController.getProductsByCategory);
+
+router
+  .route('/')
+  .post(auth(), validate(categoryValidation.createCategory), categoryController.createCategory)
+  .get(auth(), validate(categoryValidation.getAllCategorys), categoryController.getAllCategory);
+
+router
+  .route('/:categoryId')
+  .get(auth(), validate(categoryValidation.getCategory), categoryController.getCategory)
+  .put(auth(), validate(categoryValidation.updateCategory), categoryController.updateCategory)
+  .delete(auth(), validate(categoryValidation.deleteCategory), categoryController.deleteCategory);
+
+module.exports = router;
