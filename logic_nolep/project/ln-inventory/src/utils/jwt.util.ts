@@ -1,10 +1,6 @@
+import { ResponseError } from "@errors/response.error";
 import jwt, { type SignOptions } from "jsonwebtoken";
-
-interface JwtPayload {
-  id: string;
-  name: string;
-  email: string;
-}
+import type { JwtPayload } from "@models/auth.model";
 
 export class JwtHelper {
   private static ACCESS_SECRET = process.env.ACCESS_SECRET_KEY;
@@ -37,13 +33,41 @@ export class JwtHelper {
     return jwt.sign(payload, secret, options);
   }
 
-  public static verifyAccessToken(token: string): JwtPayload {
+  public static verifyAccessToken(token: string): JwtPayload | void {
     const secret = this.ensureSecret(this.ACCESS_SECRET);
-    return jwt.verify(token, secret) as JwtPayload;
+    return jwt.verify(token, secret, (err, decoded) => {
+      if (err) {
+        if (err.name === "TokenExpiredError") {
+          throw new ResponseError(401, "Unauthorized", {
+            token: "Acess token is expired!",
+          });
+        }
+        if (err.name === "JsonWebTokenError") {
+          throw new ResponseError(403, "Forbidden", {
+            token: "Invalid acess token!",
+          });
+        }
+      }
+      return decoded as JwtPayload;
+    });
   }
 
-  public static verifyRefreshToken(token: string): JwtPayload {
+  public static verifyRefreshToken(token: string): JwtPayload | void {
     const secret = this.ensureSecret(this.REFRESH_SECRET);
-    return jwt.verify(token, secret) as JwtPayload;
+    return jwt.verify(token, secret, (err, decoded) => {
+      if (err) {
+        if (err.name === "TokenExpiredError") {
+          throw new ResponseError(401, "Unauthorized", {
+            token: "Refresh token is expired!",
+          });
+        }
+        if (err.name === "JsonWebTokenError") {
+          throw new ResponseError(403, "Forbidden", {
+            token: "Invalid refresh token!",
+          });
+        }
+      }
+      return decoded as JwtPayload;
+    });
   }
 }

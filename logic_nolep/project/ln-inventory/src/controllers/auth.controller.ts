@@ -1,4 +1,4 @@
-import type { Request, Response, NextFunction } from "express";
+import type { Request, Response } from "express";
 import { AuthService } from "@services/auth.service";
 
 export class AuthController {
@@ -23,6 +23,14 @@ export class AuthController {
       succes: true,
       message: "Login succes",
       data: data,
+    });
+  }
+  public static async logout(req: Request, res: Response) {
+    const { id, token } = req.user!;
+    const logout = await AuthService.logout(id, token!);
+    res.status(200).json({
+      succes: true,
+      message: logout,
     });
   }
 }

@@ -12,20 +12,6 @@ import { generatedExpDate } from "@utils/date.util";
 import bcrypt from "bcrypt";
 
 export class AuthService {
-  private static async ensureEmailIsUnique(request: RegisterUserRequest) {
-    const checkDuplicationUser = await prisma.user.count({
-      where: {
-        email: request.email,
-      },
-    });
-
-    if (checkDuplicationUser !== 0) {
-      throw new ResponseError(400, "Validation Error", {
-        email: "email is already exist!",
-      });
-    }
-  }
-
   private static async validateCredential(
     request: LoginRequest,
   ): Promise<User> {
@@ -48,9 +34,7 @@ export class AuthService {
   }
 
   public static async registerUser(request: RegisterUserRequest) {
-    await this.ensureEmailIsUnique(request);
     request.password = await bcrypt.hash(request.password, 10);
-
     const user = await prisma.user.create({
       data: request,
     });
@@ -77,5 +61,17 @@ export class AuthService {
     return new LoginDto(user, accessToken, refreshToken);
   }
 
-  public static async logout(request: any) {}
+  public static async logout(UserId: string, token: string) {
+    await prisma.token.update({
+      where: {
+        userId: UserId,
+        blacklisted: false,
+        token: token,
+      },
+      data: {
+        blacklisted: true,
+      },
+    });
+    return { message: "Logout succes" };
+  }
 }

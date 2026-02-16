@@ -5,3 +5,5 @@ node_modules/
 .env.production
 
 /generated/prisma
+.prettierignore
+notes.txt

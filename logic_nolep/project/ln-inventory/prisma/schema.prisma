@@ -34,7 +34,7 @@ model User {
 
 model Token {
   id          String    @id @default(uuid())
-  token       String    @db.VarChar(400)
+  token       String    @unique @db.VarChar(400)
   type        String    
   expires     DateTime
   blacklisted Boolean   @default(false)
