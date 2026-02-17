@@ -10,7 +10,7 @@ nah bagian bagian tugas gua, bakal push ke branch zexo, sedangkan bagiannya hark
 cara kolaborasinya dari branch masing masing bisa PR ke master dan merge disitu. jangan lupa git pull dari master setiap salah satu kalian ada update/PR ke master.
 
 ### Submit Tugas
-Di Group Project kalian buat repo sendiri dan set up masing masing, nanti link githubnya bisa kalian taruh di PR week5 . jadi di repo org week5 ga ada push apa apa, cuman PR link group project kalian. setelah PR , nanti gua bakal schedule cari waktu untuk kalian demo group project ini ke semua anak RPN (Demo Stage).
+Di Group Project kalian buat repo sendiri dan set up masing masing, nanti link githubnya bisa kalian taruh di PR week5 . jadi di repo org week5 ga ada push apa apa, cuman PR link group project kalian. setelah PR , nanti gua bakal schedule cari waktu untuk kalian demo group project ini ke semua anak ETHJKT (Demo Stage).
 
 ### Zexo Template
 Sesuai janji gua, kalian boleh pake template backend yang udah gua sediain (agar mempercepat setup backend kalian).
