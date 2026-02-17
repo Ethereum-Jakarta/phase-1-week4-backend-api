@@ -68,7 +68,7 @@ Response error example:
 Get All Users:
 
 ```
-GET -> /api/users
+GET -> /api/users?page=1
 ```
 
 <details>
@@ -402,6 +402,55 @@ Response Success example:
   "success": true,
   "message": "Registration successful",
   "data": { "id": 1, "name": "ayu", "email": "ayunatalia@gmail.com" }
+}
+```
+
+Response error example:
+
+- 4xx Client Error
+
+```json
+{
+  "success": false,
+  "message": "Validation Error",
+  "errors": { "email": "Invalid email address" }
+}
+```
+
+- 5xx Internal Server Error
+
+```json
+{
+  "success": false,
+  "message": "Internal Server Error"
+}
+```
+
+</details>
+
+Refresh Token
+
+```
+POST -> /api/auth/refresh
+```
+
+<details>
+<summary> Click for more details </summary>
+Request Body example (json):
+
+```json
+{}
+```
+
+Response Success example:
+
+```json
+{
+  "succes": true,
+  "message": "Succes generate new acces token!",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjNGVhYTY1LTJiOWItNDM0Yy1hMGZhLTYyNjkyZGI3ODg1MiIsIm5hbWUiOiJheXUgbmF0YWxpYSIsImVtYWlsIjoiYXl1bmF0YWxpYUBnbWFpbC5jb20iLCJpYXQiOjE3NzEzMzUzMzQsImV4cCI6MTc3MTMzNTkzNH0.Pm06tWb8QeADiH0qEpK0ZSb-nJVi-d4o9SJonAZKp-U"
+  }
 }
 ```
 

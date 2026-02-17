@@ -1,6 +1,7 @@
 import { ResponseError } from "@errors/response.error";
 import jwt, { type SignOptions } from "jsonwebtoken";
 import type { JwtPayload } from "@models/auth.model";
+import { logger } from "@applications/logger";
 
 export class JwtHelper {
   private static ACCESS_SECRET = process.env.ACCESS_SECRET_KEY;
@@ -38,6 +39,7 @@ export class JwtHelper {
     return jwt.verify(token, secret, (err, decoded) => {
       if (err) {
         if (err.name === "TokenExpiredError") {
+          logger.debug("TOKEN SUDAH EXPIRED");
           throw new ResponseError(401, "Unauthorized", {
             token: "Acess token is expired!",
           });
@@ -58,7 +60,7 @@ export class JwtHelper {
       if (err) {
         if (err.name === "TokenExpiredError") {
           throw new ResponseError(401, "Unauthorized", {
-            token: "Refresh token is expired!",
+            token: "Refresh token is expired, please login again!",
           });
         }
         if (err.name === "JsonWebTokenError") {

@@ -22,15 +22,17 @@ export function globalErrorHandler(
   }
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     if (err.code === "P2025") {
+      logger.warn("Data isn't exist or maybe deleted");
       return res.status(404).json({
         success: false,
-        message: "Data tidak ditemukan atau sudah dihapus.",
+        message: "Data isn't exist or maybe deleted",
       });
     }
     if (err.code === "P2002") {
+      logger.warn("Data alredy exist!");
       return res.status(400).json({
         success: false,
-        message: "Data sudah ada (duplikat).",
+        message: "Data alredy exist!",
         target: err.meta?.target,
       });
     }
@@ -38,7 +40,7 @@ export function globalErrorHandler(
   if (err instanceof Prisma.PrismaClientValidationError) {
     return res.status(400).json({
       success: false,
-      message: "Format data yang dikirimkan tidak sesuai.",
+      message: "Invalid format",
     });
   }
   logger.error(err.message, err);

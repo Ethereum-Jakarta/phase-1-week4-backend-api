@@ -5,11 +5,13 @@ import {
   type RegisterUserRequest,
 } from "@models/user.model";
 import type { User } from "@generated/prisma/client";
+import type { JwtPayload, RequestUser } from "@models/auth.model";
 import { prisma } from "@applications/prisma";
 import { ResponseError } from "@errors/response.error";
 import { JwtHelper } from "@utils/jwt.util";
 import { generatedExpDate } from "@utils/date.util";
 import bcrypt from "bcrypt";
+import { logger } from "@applications/logger";
 
 export class AuthService {
   private static async validateCredential(
@@ -44,7 +46,11 @@ export class AuthService {
 
   public static async login(request: LoginRequest) {
     const user = await this.validateCredential(request);
-    const payload = { id: user.id, name: user.name, email: user.email! };
+    const payload = {
+      id: user.id,
+      name: user.name,
+      email: user.email!,
+    } as JwtPayload;
 
     const refreshToken = JwtHelper.createRefreshToken(payload);
     const accessToken = JwtHelper.createAccessToken(payload);
@@ -73,5 +79,21 @@ export class AuthService {
       },
     });
     return { message: "Logout succes" };
+  }
+  public static async refresh(user: RequestUser) {
+    const payload = { id: user.id, name: user.name, email: user.email };
+    const IsTokenValid = await prisma.token.findUnique({
+      where: {
+        token: user.token!,
+        blacklisted: false,
+      },
+    });
+    if (!IsTokenValid) {
+      throw new ResponseError(401, "Unauthorized", {
+        token: "Refresh token is invalid or removed, please login again!",
+      });
+    }
+    const accessToken = JwtHelper.createAccessToken(payload);
+    return { token: accessToken };
   }
 }

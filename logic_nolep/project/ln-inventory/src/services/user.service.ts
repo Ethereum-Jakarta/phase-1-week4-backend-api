@@ -8,6 +8,7 @@ import {
 import { prisma } from "@applications/prisma";
 import bcrypt from "bcrypt";
 import { ResponseError } from "@errors/response.error";
+import { logger } from "@applications/logger";
 
 export class UserService {
   public static async createUser(request: RegisterUserRequest) {
@@ -40,14 +41,20 @@ export class UserService {
   }
 
   public static async getAllUser(page: number) {
-    const users = await prisma.user.findMany({
-      skip: (page - 1) * 20,
-      take: 20,
-      orderBy: {
-        id: "asc",
-      },
-    });
-    return users.map((user) => new SelectUserDto(user));
+    logger.debug("incoming request");
+    const limit = 20;
+    const [users, total] = await Promise.all([
+      prisma.user.findMany({
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: {
+          id: "asc",
+        },
+      }),
+      prisma.user.count(),
+    ]);
+    const data = users.map((user) => new SelectUserDto(user));
+    return { users: data, totalPage: total >= limit ? total / limit : 1 };
   }
 
   public static async getUserById(userId: string) {

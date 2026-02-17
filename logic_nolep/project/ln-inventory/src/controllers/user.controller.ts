@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { UserService } from "@services/user.service";
+import { logger } from "@applications/logger";
 
 export class UserController {
   public static async createUser(req: Request, res: Response) {
@@ -27,20 +28,23 @@ export class UserController {
       message: "Success delete user!",
     });
   }
+
   public static async getAllUser(req: Request, res: Response) {
     const page = Number(req.query.page);
-    const data = UserService.getAllUser(page);
+    logger.debug(`incoming request with page = ${page}`);
+    const data = await UserService.getAllUser(page);
     res.status(201).json({
       success: true,
       message: "List users retrieved!",
-      data: data,
+      data: data.users,
       page: page,
-      //total_page: ... (edit dto model)
+      total_page: data.totalPage,
     });
   }
+
   public static async getUserById(req: Request, res: Response) {
     const userId = req.params.userId as string;
-    const data = UserService.getUserById(userId);
+    const data = await UserService.getUserById(userId);
     res.status(201).json({
       success: true,
       message: "User retrieved!",

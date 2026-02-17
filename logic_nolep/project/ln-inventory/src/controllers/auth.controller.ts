@@ -30,7 +30,15 @@ export class AuthController {
     const logout = await AuthService.logout(id, token!);
     res.status(200).json({
       succes: true,
-      message: logout,
+      message: logout.message,
+    });
+  }
+  public static async refresh(req: Request, res: Response) {
+    const newRefreshToken = await AuthService.refresh(req.user!);
+    res.status(200).json({
+      succes: true,
+      message: "Succes generate new acces token!",
+      data: newRefreshToken,
     });
   }
 }

@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import { JwtHelper } from "@utils/jwt.util";
 import { ResponseError } from "@errors/response.error";
+import { logger } from "@applications/logger";
 
 export class AuthMiddleware {
   public static authorizeAccess(
@@ -20,7 +21,7 @@ export class AuthMiddleware {
       req.user = decoded!;
       next();
     } catch (err) {
-      next();
+      next(err);
     }
   }
 
@@ -40,7 +41,7 @@ export class AuthMiddleware {
       req.user = { ...decoded!, token: refreshToken };
       next();
     } catch (err) {
-      next();
+      next(err);
     }
   }
 }
