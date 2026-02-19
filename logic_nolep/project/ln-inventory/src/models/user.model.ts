@@ -62,10 +62,12 @@ export class SelectUserDto {
   public name: string;
   public email: string | null;
   public role: Role;
+  public created_at: Date;
   constructor(user: User) {
     this.id = user.id;
     this.name = user.name;
     this.email = user.email;
     this.role = user.role;
+    this.created_at = user.createdAt;
   }
 }

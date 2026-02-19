@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
+import type { JwtPayload } from "@models/auth.model";
 import { JwtHelper } from "@utils/jwt.util";
 import { ResponseError } from "@errors/response.error";
-import { logger } from "@applications/logger";
 
 export class AuthMiddleware {
   public static authorizeAccess(
@@ -38,7 +38,12 @@ export class AuthMiddleware {
     }
     try {
       const decoded = JwtHelper.verifyRefreshToken(refreshToken);
-      req.user = { ...decoded!, token: refreshToken };
+      const payload = {
+        id: decoded!.id,
+        name: decoded!.name,
+        email: decoded!.email,
+      } as JwtPayload;
+      req.user = { ...payload, token: refreshToken };
       next();
     } catch (err) {
       next(err);

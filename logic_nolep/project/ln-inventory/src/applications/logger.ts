@@ -14,7 +14,7 @@ const enumerateErrors = winston.format((info) => {
 const logger = winston.createLogger({
   level: config.isDev ? "debug" : "info",
   format: winston.format.combine(
-    winston.format.timestamp(),
+    winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss:ms" }),
     enumerateErrors(),
     config.isDev ? winston.format.colorize() : winston.format.uncolorize(),
     winston.format.splat(),

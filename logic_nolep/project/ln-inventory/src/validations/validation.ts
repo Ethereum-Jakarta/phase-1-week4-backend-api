@@ -8,6 +8,7 @@ export function validateRequest<T>(schema: ZodType, data: T): T {
       string,
       string
     >;
+
     const errorDetails = Object.keys(fieldErrors).reduce(
       (acc: Record<string, string>, key: string) => {
         acc[key] = fieldErrors[key]?.[0] ?? "";
@@ -15,7 +16,14 @@ export function validateRequest<T>(schema: ZodType, data: T): T {
       },
       {},
     );
-    throw new ResponseError(400, "Validation failed", errorDetails);
+
+    throw new ResponseError(
+      400,
+      "Validation failed",
+      Object.keys(errorDetails).length === 0
+        ? { body: "Request Body is required" }
+        : errorDetails,
+    );
   }
   return result.data as T;
 }

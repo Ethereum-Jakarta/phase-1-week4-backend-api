@@ -7,6 +7,7 @@ import { Server } from "http";
 let server: Server | null = null;
 
 if (prisma) {
+  console.clear();
   logger.info("Prisma client is initialized.");
   if (config.isProd) {
     logger.info("🚀 Berjalan di mode PRODUCTION");

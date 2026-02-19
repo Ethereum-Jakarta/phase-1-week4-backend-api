@@ -14,12 +14,13 @@ export function globalErrorHandler(
       statusCode: err.statusCode,
       details: err.details,
     });
-    res.status(err.statusCode).json({
+    return res.status(err.statusCode).json({
       success: false,
       message: err.message,
       errors: err.details,
     });
   }
+
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     if (err.code === "P2025") {
       logger.warn("Data isn't exist or maybe deleted");
@@ -37,12 +38,14 @@ export function globalErrorHandler(
       });
     }
   }
+
   if (err instanceof Prisma.PrismaClientValidationError) {
     return res.status(400).json({
       success: false,
-      message: "Invalid format",
+      message: "Invalid Input Data",
     });
   }
+
   logger.error(err.message, err);
   res.status(500).json({
     success: false,
