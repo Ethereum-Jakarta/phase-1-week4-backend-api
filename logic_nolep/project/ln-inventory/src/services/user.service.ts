@@ -5,24 +5,24 @@ import {
   type RegisterUserRequest,
   type UpdateUserRequest,
 } from "@models/user.model";
-import { prisma } from "@applications/prisma";
 import bcrypt from "bcrypt";
 import { ResponseError } from "@errors/response.error";
-import { logger } from "@applications/logger";
+import type { PrismaClient } from "@generated/prisma/client";
 
 export class UserService {
-  public static async createUser(request: RegisterUserRequest) {
+  constructor(private prisma: PrismaClient) {}
+  public async createUser(request: RegisterUserRequest) {
     request.password = await bcrypt.hash(request.password, 10);
 
-    const user = await prisma.user.create({
+    const user = await this.prisma.user.create({
       data: request,
     });
 
     return new RegisterUserDto(user);
   }
 
-  public static async updateUser(userId: string, request: UpdateUserRequest) {
-    const user = await prisma.user.update({
+  public async updateUser(userId: string, request: UpdateUserRequest) {
+    const user = await this.prisma.user.update({
       where: {
         id: userId,
       },
@@ -32,33 +32,32 @@ export class UserService {
     return new UpdateUserDto(user);
   }
 
-  public static async deleteUser(userId: string) {
-    await prisma.user.delete({
+  public async deleteUser(userId: string) {
+    await this.prisma.user.delete({
       where: {
         id: userId,
       },
     });
   }
 
-  public static async getAllUser(page: number) {
-    logger.debug("incoming request");
+  public async getAllUser(page: number = 1) {
     const limit = 20;
     const [users, total] = await Promise.all([
-      prisma.user.findMany({
+      this.prisma.user.findMany({
         skip: (page - 1) * limit,
         take: limit,
         orderBy: {
           id: "asc",
         },
       }),
-      prisma.user.count(),
+      this.prisma.user.count(),
     ]);
     const data = users.map((user) => new SelectUserDto(user));
     return { users: data, totalPage: total >= limit ? total / limit : 1 };
   }
 
-  public static async getUserById(userId: string) {
-    const user = await prisma.user.findUnique({
+  public async getUserById(userId: string) {
+    const user = await this.prisma.user.findUnique({
       where: {
         id: userId,
       },

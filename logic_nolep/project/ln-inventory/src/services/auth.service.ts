@@ -6,18 +6,16 @@ import {
 } from "@models/user.model";
 import type { User } from "@generated/prisma/client";
 import type { JwtPayload, RequestUser } from "@models/auth.model";
-import { prisma } from "@applications/prisma";
+import type { PrismaClient } from "@generated/prisma/client";
 import { ResponseError } from "@errors/response.error";
 import { JwtHelper } from "@utils/jwt.util";
 import { generatedExpDate } from "@utils/date.util";
 import bcrypt from "bcrypt";
-import { logger } from "@applications/logger";
 
 export class AuthService {
-  private static async validateCredential(
-    request: LoginRequest,
-  ): Promise<User> {
-    const user = await prisma.user.findUnique({
+  constructor(private prisma: PrismaClient) {}
+  private async validateCredential(request: LoginRequest): Promise<User> {
+    const user = await this.prisma.user.findUnique({
       where: {
         email: request.email,
       },
@@ -35,16 +33,16 @@ export class AuthService {
     return user;
   }
 
-  public static async registerUser(request: RegisterUserRequest) {
+  public async registerUser(request: RegisterUserRequest) {
     request.password = await bcrypt.hash(request.password, 10);
-    const user = await prisma.user.create({
+    const user = await this.prisma.user.create({
       data: request,
     });
 
     return new RegisterUserDto(user);
   }
 
-  public static async login(request: LoginRequest) {
+  public async login(request: LoginRequest) {
     const user = await this.validateCredential(request);
     const payload = {
       id: user.id,
@@ -55,7 +53,7 @@ export class AuthService {
     const refreshToken = JwtHelper.createRefreshToken(payload);
     const accessToken = JwtHelper.createAccessToken(payload);
 
-    await prisma.token.create({
+    await this.prisma.token.create({
       data: {
         token: refreshToken,
         type: "refresh",
@@ -67,8 +65,8 @@ export class AuthService {
     return new LoginDto(user, accessToken, refreshToken);
   }
 
-  public static async logout(UserId: string, token: string) {
-    await prisma.token.update({
+  public async logout(UserId: string, token: string) {
+    await this.prisma.token.update({
       where: {
         userId: UserId,
         blacklisted: false,
@@ -80,9 +78,9 @@ export class AuthService {
     });
     return { message: "Logout succes" };
   }
-  public static async refresh(user: RequestUser) {
+  public async refresh(user: RequestUser) {
     const payload = { id: user.id, name: user.name, email: user.email };
-    const IsTokenValid = await prisma.token.findUnique({
+    const IsTokenValid = await this.prisma.token.findUnique({
       where: {
         token: user.token!,
         blacklisted: false,
