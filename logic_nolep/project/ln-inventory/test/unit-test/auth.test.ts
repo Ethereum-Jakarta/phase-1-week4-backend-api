@@ -39,7 +39,7 @@ describe("AuthService", () => {
         updatedAt: new Date(),
       };
 
-      bcryptMock.hash.mockResolvedValue(hashedPassword);
+      bcryptMock.hash.mockResolvedValue(hashedPassword as never);
       prismaMock.user.create.mockResolvedValue(createdUser);
 
       const result = await authService.registerUser(registerRequest);
@@ -62,7 +62,7 @@ describe("AuthService", () => {
         password: "Pass123",
       };
 
-      bcryptMock.hash.mockResolvedValue("hashedPass");
+      bcryptMock.hash.mockResolvedValue("hashedPass" as never);
       prismaMock.user.create.mockRejectedValue(
         new Error("Unique constraint failed on the fields: (`email`)"),
       );
@@ -78,7 +78,7 @@ describe("AuthService", () => {
       };
 
       const hashedPassword = "$2b$10$hashedPasswordValue";
-      bcryptMock.hash.mockResolvedValue(hashedPassword);
+      bcryptMock.hash.mockResolvedValue(hashedPassword as never);
       prismaMock.user.create.mockResolvedValue({
         id: "user-2",
         name: "Test User",
@@ -112,7 +112,7 @@ describe("AuthService", () => {
         updatedAt: new Date(),
       };
 
-      bcryptMock.compare.mockResolvedValue(true);
+      bcryptMock.compare.mockResolvedValue(true as never);
       prismaMock.user.findUnique.mockResolvedValue(user);
       jwtHelperMock.createRefreshToken.mockReturnValue("refresh-token-123");
       jwtHelperMock.createAccessToken.mockReturnValue("access-token-123");
@@ -168,7 +168,7 @@ describe("AuthService", () => {
       };
 
       prismaMock.user.findUnique.mockResolvedValue(user);
-      bcryptMock.compare.mockResolvedValue(false);
+      bcryptMock.compare.mockResolvedValue(false as never);
 
       await expect(authService.login(loginRequest)).rejects.toThrow(
         ResponseError,
@@ -190,7 +190,7 @@ describe("AuthService", () => {
         updatedAt: new Date(),
       };
 
-      bcryptMock.compare.mockResolvedValue(true);
+      bcryptMock.compare.mockResolvedValue(true as never);
       prismaMock.user.findUnique.mockResolvedValue(user);
       jwtHelperMock.createRefreshToken.mockReturnValue("refresh-token");
       jwtHelperMock.createAccessToken.mockReturnValue("access-token");
@@ -226,7 +226,7 @@ describe("AuthService", () => {
       };
 
       prismaMock.user.findUnique.mockResolvedValue(user);
-      bcryptMock.compare.mockResolvedValue(false);
+      bcryptMock.compare.mockResolvedValue(false as never);
 
       try {
         await authService.login(loginRequest);
@@ -437,7 +437,7 @@ describe("AuthService", () => {
       };
 
       prismaMock.user.findUnique.mockResolvedValue(user);
-      bcryptMock.compare.mockResolvedValue(true);
+      bcryptMock.compare.mockResolvedValue(true as never);
       jwtHelperMock.createRefreshToken.mockReturnValue("refresh");
       jwtHelperMock.createAccessToken.mockReturnValue("access");
       prismaMock.token.create.mockResolvedValue({
@@ -470,7 +470,7 @@ describe("AuthService", () => {
       };
 
       prismaMock.user.findUnique.mockResolvedValue(user);
-      (bcrypt.compare as jest.Mock).mockResolvedValue(false);
+      (bcrypt.compare as jest.Mock).mockResolvedValue(false as never);
 
       try {
         await authService.login(loginRequest);
