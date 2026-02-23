@@ -80,7 +80,7 @@ export class AuthService {
   }
   public async refresh(user: RequestUser) {
     const payload = { id: user.id, name: user.name, email: user.email };
-    const IsTokenValid = await this.prisma.token.findUnique({
+    const IsTokenValid = await this.prisma.token.findFirst({
       where: {
         token: user.token!,
         blacklisted: false,

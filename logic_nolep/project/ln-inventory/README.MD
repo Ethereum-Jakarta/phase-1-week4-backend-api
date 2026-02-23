@@ -635,7 +635,7 @@ Response error example:
 Update Product:
 
 ```
-PUT -> /api/products/{productId}
+PATCH -> /api/products/{productId}
 ```
 
 <details>

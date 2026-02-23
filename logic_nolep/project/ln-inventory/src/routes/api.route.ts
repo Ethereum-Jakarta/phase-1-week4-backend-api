@@ -6,6 +6,8 @@ import { validator } from "@middlewares/validator.middleware";
 import { catchPromise } from "@middlewares/catch-promise.middleware";
 import { AuthMiddleware } from "@middlewares/auth.middleware";
 import { requireRole } from "@middlewares/require-role.middleware";
+import { ProductController } from "@controllers/product.controller";
+import { ProductValidation } from "@validations/product.validation";
 
 export const apiRouter = express.Router();
 
@@ -53,4 +55,39 @@ apiRouter.delete(
   AuthMiddleware.authorizeAccess,
   requireRole("admin"),
   catchPromise(UserController.deleteUser),
+);
+
+//PRODUCT API
+apiRouter.get(
+  "/api/users/:userId/products",
+  AuthMiddleware.authorizeAccess,
+  requireRole("admin"),
+  catchPromise(ProductController.getAllProductsByUserId),
+);
+apiRouter.get(
+  "/api/products/:productId",
+  AuthMiddleware.authorizeAccess,
+  catchPromise(ProductController.getProductByProductId),
+);
+apiRouter.get(
+  "/api/products",
+  AuthMiddleware.authorizeAccess,
+  catchPromise(ProductController.getAllProducts),
+);
+apiRouter.post(
+  "/api/products",
+  AuthMiddleware.authorizeAccess,
+  validator(ProductValidation.CREATE),
+  catchPromise(ProductController.createProduct),
+);
+apiRouter.patch(
+  "/api/products/:productId",
+  AuthMiddleware.authorizeAccess,
+  validator(ProductValidation.UPDATE),
+  catchPromise(ProductController.updateProduct),
+);
+apiRouter.delete(
+  "/api/products/:productId",
+  AuthMiddleware.authorizeAccess,
+  catchPromise(ProductController.deleteProduct),
 );

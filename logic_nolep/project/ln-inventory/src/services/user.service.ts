@@ -40,8 +40,7 @@ export class UserService {
     });
   }
 
-  public async getAllUser(page: number = 1) {
-    const limit = 20;
+  public async getAllUser(page: number = 1, limit: number = 20) {
     const [users, total] = await Promise.all([
       this.prisma.user.findMany({
         skip: (page - 1) * limit,
@@ -53,7 +52,10 @@ export class UserService {
       this.prisma.user.count(),
     ]);
     const data = users.map((user) => new SelectUserDto(user));
-    return { users: data, totalPage: total >= limit ? total / limit : 1 };
+    return {
+      users: data,
+      totalPage: total >= limit ? Math.round(total / limit) : 1,
+    };
   }
 
   public async getUserById(userId: string) {

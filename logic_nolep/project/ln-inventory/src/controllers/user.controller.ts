@@ -33,7 +33,8 @@ export class UserController {
 
   public static async getAllUser(req: Request, res: Response) {
     const page = Number(req.query.page);
-    const data = await User.getAllUser(page);
+    const limit = Number(req.query.limit);
+    const data = await User.getAllUser(page, limit);
     res.status(201).json({
       success: true,
       message: "List users retrieved!",

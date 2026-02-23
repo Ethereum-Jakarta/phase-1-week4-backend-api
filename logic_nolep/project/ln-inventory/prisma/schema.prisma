@@ -55,8 +55,8 @@ model Product {
   updatedAt       DateTime     @updatedAt
   orderItems    OrderItem[]
 
-  categoryId    String
-  category      Category     @relation(fields: [categoryId], references: [id])
+  categoryId    String?
+  category      Category?    @relation(fields: [categoryId], references: [id])
   userId        String
   user          User         @relation(fields: [userId], references: [id])
 }

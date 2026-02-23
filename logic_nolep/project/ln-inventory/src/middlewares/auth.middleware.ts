@@ -19,6 +19,7 @@ export class AuthMiddleware {
     try {
       const decoded = JwtHelper.verifyAccessToken(accessToken!);
       req.user = decoded!;
+      console.log(req.user);
       next();
     } catch (err) {
       next(err);
