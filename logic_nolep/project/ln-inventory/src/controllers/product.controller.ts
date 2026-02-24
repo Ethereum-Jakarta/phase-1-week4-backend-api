@@ -6,7 +6,8 @@ const Product = new ProductService(prisma);
 
 export class ProductController {
   public static async createProduct(req: Request, res: Response) {
-    const data = await Product.createProduct(req.body);
+    const { id } = req.user!;
+    const data = await Product.createProduct(id, req.body);
     res.status(201).json({
       success: true,
       message: "Product created",

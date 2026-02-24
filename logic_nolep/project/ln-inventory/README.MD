@@ -923,7 +923,7 @@ Response error example:
 Update Category:
 
 ```
-PUT -> /api/categories/{categoryId}
+PATCH -> /api/categories/{categoryId}
 ```
 
 <details>

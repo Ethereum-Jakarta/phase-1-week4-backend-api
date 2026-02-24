@@ -10,7 +10,7 @@ import {
 export class ProductService {
   constructor(private prisma: PrismaClient) {}
 
-  public async createProduct(request: CreateProductRequest) {
+  public async createProduct(userId: string, request: CreateProductRequest) {
     const product = await this.prisma.product.create({
       data: {
         name: request.name,

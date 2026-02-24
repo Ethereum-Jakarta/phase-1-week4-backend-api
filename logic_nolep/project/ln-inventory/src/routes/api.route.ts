@@ -1,13 +1,15 @@
 import express from "express";
 import { AuthController } from "@controllers/auth.controller";
 import { UserController } from "@controllers/user.controller";
+import { ProductController } from "@controllers/product.controller";
+import { CategoryController } from "@controllers/category.controller";
 import { UserValidation } from "@validations/user.validation";
+import { ProductValidation } from "@validations/product.validation";
+import { CategoryValidation } from "@validations/category.validation";
 import { validator } from "@middlewares/validator.middleware";
 import { catchPromise } from "@middlewares/catch-promise.middleware";
 import { AuthMiddleware } from "@middlewares/auth.middleware";
 import { requireRole } from "@middlewares/require-role.middleware";
-import { ProductController } from "@controllers/product.controller";
-import { ProductValidation } from "@validations/product.validation";
 
 export const apiRouter = express.Router();
 
@@ -90,4 +92,33 @@ apiRouter.delete(
   "/api/products/:productId",
   AuthMiddleware.authorizeAccess,
   catchPromise(ProductController.deleteProduct),
+);
+
+//CATEGORY API
+apiRouter.post(
+  "/api/categories",
+  AuthMiddleware.authorizeAccess,
+  validator(CategoryValidation.CREATE),
+  catchPromise(CategoryController.createCategory),
+);
+apiRouter.get(
+  "/api/categories",
+  AuthMiddleware.authorizeAccess,
+  catchPromise(CategoryController.getAllCategory),
+);
+apiRouter.get(
+  "/api/categories/:categoryId",
+  AuthMiddleware.authorizeAccess,
+  catchPromise(CategoryController.getCategoryById),
+);
+apiRouter.patch(
+  "/api/categories/:categoryId",
+  AuthMiddleware.authorizeAccess,
+  validator(CategoryValidation.UPDATE),
+  catchPromise(CategoryController.updateCategory),
+);
+apiRouter.delete(
+  "/api/categories/:categoryId",
+  AuthMiddleware.authorizeAccess,
+  catchPromise(CategoryController.deleteCategory),
 );
