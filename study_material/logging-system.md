@@ -43,47 +43,6 @@ setiap stage mempunyai logging berbeda, makanya kita punya NODE_ENV untuk membad
 
 update file env kalian untuk menaruh PORT di env, karna sebelumnya kita hardcode port kita di index.js
 
-Logging System (Winston) | Part 34
-Zexo
-OP
- — 09/23/2023 2:07 PM
-Kalian semua sudah pada tau kan kalo di node js itu kita melakukan logging pada setiap development itu menggunakan:
-console.log("log javascript!");
-console.log(error);
-
-tapi tau ga sih kalian kalo Node Js sudah di deploy ke server dan terjadi error dalam server, kita ga bisa nangkep error tersebut kenapa ? ya karena ga ada log yang di tampilkan, emangnya kita bisa ngecek log dengan cara mantau di server ? 
-
-nah salah satunya adalah membuat offline log, offline log  yang berguna untuk melihat file kita secara offline + saat error di development. kita akan memakai library winston untuk generate file offline dimana file ini bisa ngebaca error apa yang terjadi.
-{"code":"ER_BAD_FIELD_ERROR","errno":1054,"sqlMessage":"Unknown column 'person' in 'where clause'","sqlState":"42S22","index":0,"sql":"SELECT * FROM user WHERE person = 'Kiddy'","level":"error"}
-
-ini contoh diatas hasil generate offline log dari winston. 
-Zexo
-OP
- — 09/23/2023 2:28 PM
-New Config Setup
-Sebelum kita membuat logging system pada project kita, kita membuat file config terlebih dahulu untuk menaruh file file env kita agar lebih mudah akses nya. buat lah file config.js di folder config.
-
-config/config.js
-const dotenv = require('dotenv');
-const path = require('path');
-
-dotenv.config({ path: path.join(__dirname, '../../.env') });
-
-module.exports = {
-    env: process.env.NODE_ENV,
-    port: process.env.PORT,
-    database: {
-      url: process.env.DATABASE_URL
-    }
-};
-
-ingat environment kita terbagi 2 stage dalam backend 
--development
--production
-setiap stage mempunyai logging berbeda, makanya kita punya NODE_ENV untuk membadakan mana stage server yang dijalankan.
-
-update file env kalian untuk menaruh PORT di env, karna sebelumnya kita hardcode port kita di index.js
-
 `.env`
 
 ```
