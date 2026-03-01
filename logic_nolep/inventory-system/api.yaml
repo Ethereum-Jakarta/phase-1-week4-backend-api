@@ -1,0 +1,549 @@
+openapi: 3.0.0
+info:
+  title: API Documentation
+  description: Comprehensive API documentation
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+    Category:
+      type: object
+      properties:
+        name:
+          type: string
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        quantityInStock:
+          type: integer
+        categoryId:
+          type: string
+        userId:
+          type: string
+    Order:
+      type: object
+      properties:
+        totalPrice:
+          type: number
+        customerName:
+          type: string
+        customerEmail:
+          type: string
+        userId:
+          type: string
+    OrderItem:
+      type: object
+      properties:
+        unitPrice:
+          type: number
+        quantity:
+          type: integer
+        productId:
+          type: string
+        orderId:
+          type: string
+
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: User registered successfully
+  /auth/login:
+    post:
+      summary: Login a user
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: User logged in successfully
+  /auth/logout:
+    post:
+      summary: Logout a user
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: User logged out successfully
+  /users:
+    post:
+      summary: Create a new user
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: User created successfully
+    get:
+      summary: Get all users
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: A list of users
+  /users/{userId}:
+    get:
+      summary: Get a user by ID
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: User details
+    put:
+      summary: Update a user
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: User updated successfully
+    delete:
+      summary: Delete a user
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: User deleted successfully
+  /categories:
+    post:
+      summary: Create a category
+      tags:
+        - Categories
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        201:
+          description: Category created successfully
+    get:
+      summary: Get all categories
+      tags:
+        - Categories
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: A list of categories
+  /categories/{categoryId}:
+    get:
+      summary: Get a category by ID
+      tags:
+        - Categories
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Category details
+    put:
+      summary: Update a category
+      tags:
+        - Categories
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        200:
+          description: Category updated successfully
+    delete:
+      summary: Delete a category
+      tags:
+        - Categories
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Category deleted successfully
+  /products:
+    post:
+      summary: Create a product
+      tags:
+        - Products
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        201:
+          description: Product created successfully
+    get:
+      summary: Get all products
+      tags:
+        - Products
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: A list of products
+  /products/{productId}:
+    get:
+      summary: Get a product by ID
+      tags:
+        - Products
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Product details
+    put:
+      summary: Update a product
+      tags:
+        - Products
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        200:
+          description: Product updated successfully
+    delete:
+      summary: Delete a product
+      tags:
+        - Products
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Product deleted successfully
+  /users/{userId}/products:
+    get:
+      summary: Get products by user ID
+      tags:
+        - Products
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: A list of products
+  /orders:
+    post:
+      summary: Create an order
+      tags:
+        - Orders
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        201:
+          description: Order created successfully
+    get:
+      summary: Get all orders
+      tags:
+        - Orders
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: A list of orders
+  /orders/{orderId}:
+    get:
+      summary: Get an order by ID
+      tags:
+        - Orders
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Order details
+    put:
+      summary: Update an order
+      tags:
+        - Orders
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        200:
+          description: Order updated successfully
+    delete:
+      summary: Delete an order
+      tags:
+        - Orders
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Order deleted successfully
+  /users/{userId}/orders:
+    get:
+      summary: Get orders by user ID
+      tags:
+        - Orders
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: A list of orders
+  /order-items:
+    post:
+      summary: Create an order item
+      tags:
+        - Order Items
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+      responses:
+        201:
+          description: Order item created successfully
+    get:
+      summary: Get all order items
+      tags:
+        - Order Items
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: A list of order items
+  /order-items/{orderItemId}:
+    get:
+      summary: Get an order item by ID
+      tags:
+        - Order Items
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: orderItemId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Order item details
+    put:
+      summary: Update an order item
+      tags:
+        - Order Items
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: orderItemId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderItem'
+      responses:
+        200:
+          description: Order item updated successfully
+    delete:
+      summary: Delete an order item
+      tags:
+        - Order Items
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: orderItemId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Order item deleted successfully
+  /orders/{orderId}/order-items:
+    get:
+      summary: Get order items by order ID
+      tags:
+        - Order Items
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: A list of order items

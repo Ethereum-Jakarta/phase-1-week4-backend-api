@@ -1,0 +1,76 @@
+@BASE_URL = http://localhost:3000
+@API_KEY = your-api-key-here
+@JWT_TOKEN = your-jwt-token-here
+
+@userId = 1
+@todoId = 1
+
+### Create User
+POST {{BASE_URL}}/users
+Content-Type: application/json
+# Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "name": "Fitra",
+  "email": "fitra2@gmail.com",
+  "phone": "123456789"
+}
+
+### Get All Users
+GET {{BASE_URL}}/users
+# Authorization: Bearer {{JWT_TOKEN}}
+
+### Get User by ID
+GET {{BASE_URL}}/users/{{userId}}
+# Authorization: Bearer {{JWT_TOKEN}}
+
+### Update User
+PUT {{BASE_URL}}/users/{{userId}}
+Content-Type: application/json
+# Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "name": "Fitra2",
+  "email": "fitra2@gmail.com",
+  "phone": "123456789"
+}
+
+### Delete User
+DELETE {{BASE_URL}}/users/{{userId}}
+# Authorization: Bearer {{JWT_TOKEN}}
+
+### Create Todo
+POST {{BASE_URL}}/todos
+Content-Type: application/json
+# Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "title": "Coding",
+  "description": "Lorem Ipsum",
+  "status": "pending",
+  "userId": "{{userId}}"
+}
+
+### Get All Todos
+GET {{BASE_URL}}/todos
+# Authorization: Bearer {{JWT_TOKEN}}
+
+### Get Todo by ID
+GET {{BASE_URL}}/todos/{{todoId}}
+# Authorization: Bearer {{JWT_TOKEN}}
+
+### Update Todo
+PUT {{BASE_URL}}/todos/{{todoId}}
+Content-Type: application/json
+# Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "title": "Updated Coding",
+  "description": "Lorem Ipsum",
+  "status": "pending",
+  "userId": "{{userId}}"
+}
+
+### Delete Todo
+DELETE {{BASE_URL}}/todos/{{todoId}}
+# Authorization: Bearer {{JWT_TOKEN}}

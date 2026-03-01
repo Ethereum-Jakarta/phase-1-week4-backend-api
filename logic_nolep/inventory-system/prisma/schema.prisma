@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Order {
+  id            String      @id @default(uuid())
+  totalPrice    Float
+  customerName  String
+  customerEmail String
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  orderItems    OrderItem[]
+
+  @@map("Order")
+}
+
+model OrderItem {
+  id         String   @id @default(uuid())
+  orderId    String
+  productId  String
+  quantity   Int
+  unitPrice  Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  order      Order    @relation(fields: [orderId], references: [id])
+  product    Product  @relation(fields: [productId], references: [id])
+
+  @@map("OrderItem")
+}
+
+model Product {
+  id             String   @id @default(uuid())
+  name           String
+  description    String
+  price          Float
+  quantityInStock Int
+  categoryId     String
+  userId         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  category       Category @relation(fields: [categoryId], references: [id])
+  user           User     @relation(fields: [userId], references: [id])
+  orderItems     OrderItem[]
+
+  @@map("Product")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+  products  Product[]
+
+  @@map("Category")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+  products  Product[]
+  tokens    Token[]
+
+  @@map("User")
+}
+
+model Token {
+  id          String   @id @default(uuid())
+  token       String   @db.Text
+  userId      String
+  type        String
+  expires     DateTime
+  blacklisted Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@map("Token")
+}

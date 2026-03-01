@@ -1,0 +1,254 @@
+@BASE_URL = http://localhost:3000/api
+@API_KEY = your-api-key-here
+@JWT_TOKEN = your-jwt-token-here
+
+@userId = user-id
+@tokenId = token-id
+@categoryId = category-id
+@productId = product-id
+@orderId = order-id
+@orderItemId = order-item-id
+
+# ------------ START AUTH API ------------ #
+
+### Register
+POST {{BASE_URL}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Fitra",
+  "email": "fitra@gmail.com",
+  "password": "password",
+  "role": "user"
+}
+
+### Login
+POST {{BASE_URL}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "fitra@gmail.com",
+  "password": "password"
+}
+
+### Logout
+POST {{BASE_URL}}/auth/logout
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+# ------------ END AUTH API ------------ #
+
+
+# ------------ START USER CRUD API ------------ #
+
+### Create User
+POST {{BASE_URL}}/users
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "name": "Fitra",
+  "email": "fitra2@gmail.com",
+  "password": "password",
+  "role": "user"
+}
+
+### Get All Users
+GET {{BASE_URL}}/users
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Get User by ID
+GET {{BASE_URL}}/users/{{userId}}
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Update User
+PUT {{BASE_URL}}/users/{{userId}}
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "name": "Fitra",
+  "email": "fitra2@gmail.com",
+  "password": "password",
+  "role": "admin"
+}
+
+### Delete User
+DELETE {{BASE_URL}}/users/{{userId}}
+Authorization: Bearer {{JWT_TOKEN}}
+
+# ------------ END USER CRUD API ------------ #
+
+
+# ------------ START CATEGORY CRUD API ------------ #
+
+### Create Category
+POST {{BASE_URL}}/categories
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "name": "Electronics"
+}
+
+### Get All Categories
+GET {{BASE_URL}}/categories
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Get Category by ID
+GET {{BASE_URL}}/categories/{{categoryId}}
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Update Category
+PUT {{BASE_URL}}/categories/{{categoryId}}
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "name": "Updated Electronics"
+}
+
+### Delete Category
+DELETE {{BASE_URL}}/categories/{{categoryId}}
+Authorization: Bearer {{JWT_TOKEN}}
+
+# ------------ END CATEGORY CRUD API ------------ #
+
+
+# ------------ START PRODUCT CRUD API ------------ #
+
+### Create Product
+POST {{BASE_URL}}/products
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "name": "New Product",
+  "description": "A detailed description of the new product.",
+  "price": 150.00,
+  "quantityInStock": 100,
+  "categoryId": "{{categoryId}}",
+  "userId": "{{userId}}"
+}
+
+### Get All Products
+GET {{BASE_URL}}/products
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Get Product by ID
+GET {{BASE_URL}}/products/{{productId}}
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Update Product
+PUT {{BASE_URL}}/products/{{productId}}
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "name": "Updated Product",
+  "description": "Updated description",
+  "price": 200.00,
+  "quantityInStock": 50,
+  "categoryId": "{{categoryId}}",
+  "userId": "{{userId}}"
+}
+
+### Delete Product
+DELETE {{BASE_URL}}/products/{{productId}}
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Get Products by User ID
+GET {{BASE_URL}}/users/{{userId}}/products
+Authorization: Bearer {{JWT_TOKEN}}
+
+# ------------ END PRODUCT CRUD API ------------ #
+
+
+# ------------ ORDER CRUD API ------------ #
+
+### Create Order
+POST {{BASE_URL}}/orders
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "totalPrice": 250.00,
+  "customerName": "Fitra",
+  "customerEmail": "fitra@gmail.com",
+  "userId": "{{userId}}"
+}
+
+### Get All Orders
+GET {{BASE_URL}}/orders
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Get Single Order by ID
+GET {{BASE_URL}}/orders/{{orderId}}
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Update Order
+PUT {{BASE_URL}}/orders/{{orderId}}
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "totalPrice": 260.00,
+  "customerName": "Fitra",
+  "customerEmail": "fitra@gmail.com",
+  "userId": "{{userId}}"
+}
+
+### Delete Order
+DELETE {{BASE_URL}}/orders/{{orderId}}
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Get Orders by User ID
+GET {{BASE_URL}}/users/{{userId}}/orders
+Authorization: Bearer {{JWT_TOKEN}}
+
+# ------------ END ORDER CRUD API ------------ #
+
+
+# ------------ START ORDER ITEM CRUD API ------------ #
+
+### Create Order Item
+POST {{BASE_URL}}/order-items
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "unitPrice": 250.00,
+  "quantity": 20,
+  "productId": "{{productId}}",
+  "orderId": "{{orderId}}"
+}
+
+### Get All Order Items
+GET {{BASE_URL}}/order-items
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Get Single Order Item by ID
+GET {{BASE_URL}}/order-items/{{orderItemId}}
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Update Order Item
+PUT {{BASE_URL}}/order-items/{{orderItemId}}
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "unitPrice": 260.00,
+  "quantity": 20,
+  "productId": "{{productId}}",
+  "orderId": "{{orderId}}"
+}
+
+### Delete Order Item
+DELETE {{BASE_URL}}/order-items/{{orderItemId}}
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Get Order Items by Order ID
+GET {{BASE_URL}}/orders/{{orderId}}/order-items
+Authorization: Bearer {{JWT_TOKEN}}
+
+# ------------ END ORDER ITEM CRUD API ------------ #
