@@ -3,9 +3,11 @@ import { AuthController } from "@controllers/auth.controller";
 import { UserController } from "@controllers/user.controller";
 import { ProductController } from "@controllers/product.controller";
 import { CategoryController } from "@controllers/category.controller";
+import { OrderController } from "@controllers/order.controller";
 import { UserValidation } from "@validations/user.validation";
 import { ProductValidation } from "@validations/product.validation";
 import { CategoryValidation } from "@validations/category.validation";
+import { OrderValidation } from "@validations/order.validation";
 import { validator } from "@middlewares/validator.middleware";
 import { catchPromise } from "@middlewares/catch-promise.middleware";
 import { AuthMiddleware } from "@middlewares/auth.middleware";
@@ -121,4 +123,39 @@ apiRouter.delete(
   "/api/categories/:categoryId",
   AuthMiddleware.authorizeAccess,
   catchPromise(CategoryController.deleteCategory),
+);
+
+//ORDER API
+apiRouter.post(
+  "/api/orders",
+  AuthMiddleware.authorizeAccess,
+  validator(OrderValidation.CREATE),
+  catchPromise(OrderController.createOrder),
+);
+apiRouter.get(
+  "/api/orders",
+  AuthMiddleware.authorizeAccess,
+  catchPromise(OrderController.getAllOrder),
+);
+apiRouter.get(
+  "/api/users/:userId/orders",
+  AuthMiddleware.authorizeAccess,
+  requireRole("admin"),
+  catchPromise(OrderController.getAllOrderByUserId),
+);
+apiRouter.get(
+  "/api/orders/:orderId",
+  AuthMiddleware.authorizeAccess,
+  catchPromise(OrderController.getOrderByOrderId),
+);
+apiRouter.patch(
+  "/api/orders/:orderId",
+  AuthMiddleware.authorizeAccess,
+  validator(OrderValidation.UPDATE),
+  catchPromise(OrderController.updateOrder),
+);
+apiRouter.delete(
+  "/api/orders/:orderId",
+  AuthMiddleware.authorizeAccess,
+  catchPromise(OrderController.deleteOrder),
 );

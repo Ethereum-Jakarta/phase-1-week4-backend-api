@@ -71,7 +71,6 @@ model Category {
 
 model Order {
   id          String     @id @default(uuid())
-  date        DateTime
   totalPrice  Float
   customerName String
   customerEmail String
