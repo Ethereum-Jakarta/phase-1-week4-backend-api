@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  user
+  admin
+}
+
+model User {
+  id              String       @id @default(uuid())
+  name            String
+  email           String       @unique
+  password        String    
+  role            Role         @default(user)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  isEmailVerified Boolean      @default(false)
+  tokens          Token[]
+  products        Product[]
+  orders          Order[]
+}
+
+model Token {
+  id          String    @id @default(uuid())
+  token       String    @unique @db.VarChar(400)
+  type        String    
+  expires     DateTime
+  blacklisted Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  userId      String    
+  User        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id            String       @id @default(uuid())
+  name          String
+  description   String
+  price         Float
+  quantityInStock Int
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  orderItems    OrderItem[]
+
+  categoryId    String?
+  category      Category?    @relation(fields: [categoryId], references: [id])
+  userId        String
+  user          User         @relation(fields: [userId], references: [id])
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String
+  products  Product[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+model Order {
+  id          String     @id @default(uuid())
+  totalPrice  Float
+  customerName String
+  customerEmail String
+  orderItems  OrderItem[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+}
+
+model OrderItem {
+  id         String    @id @default(uuid())
+  quantity   Int
+  unitPrice  Float
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  orderId    String
+  order      Order     @relation(fields: [orderId], references: [id])
+  productId  String
+  product    Product   @relation(fields: [productId], references: [id])
+}
